@@ -19,12 +19,12 @@ ARG GPU=intel
 ARG JAR_PATH=http://s3.amazonaws.com/Minecraft.Download/launcher/Minecraft.jar
 
 RUN apk --no-cache add \
+	alsa-lib \
 	eudev-libs \
 	libxcursor \
 	libxtst \
 	mesa-dri-$GPU \
 	mesa-gl \
-	sox \
 	xrandr
 
 ADD $JAR_PATH /minecraft/
