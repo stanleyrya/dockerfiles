@@ -23,6 +23,12 @@ docker rmi $(docker images -q)
 docker volume rm $(docker volume ls -qf dangling=true)
 ```
 
+###### "Help! My docker container does not have the correct time!"
+Docker containers are not guaranteed to have the same timezone as the host machine. Normally this is not an issue, however when dealing with cronjobs this could lead to seemingly erratic behavior. Luckily there is an easy fix, simply share either `/etc/timezone` or `/etc/localtime` with the container as a read-only volume. For projects that use an Alpine base image make sure to share `/etc/localtime` as `/etc/timezone` does not exist. For example:
+```
+docker run -v /etc/localtime:/etc/localtime:ro image
+```
+
 #### Node.js
 ###### "Help! When I try to build with docker, I get a `cross-device link not permitted` error!"
 The most common cause of this problem is due to node modules being copied to your docker container from your host machine before running `npm install`. You can either manually remove the node modules before building with docker, or create a `.dockerignore` file with the following contents:
